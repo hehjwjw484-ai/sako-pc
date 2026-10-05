@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="th" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAKO&PP PC - เลือกสเปกคอมและโน้ตบุ๊กที่คุณต้องการ</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f6ff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        },
+                        accent: {
+                            purple: '#a855f7',
+                            cyan: '#06b6d4',
+                            emerald: '#10b981'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Kanit', 'Prompt', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #0b0f19;
+            color: #f3f4f6;
+        }
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-input {
+            background: rgba(31, 41, 55, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .glass-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-12 antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Header Section -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-gray-800/80 mb-8">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-gradient-to-tr from-brand-600 to-accent-purple rounded-xl shadow-lg shadow-brand-500/20">
+                    <i data-lucide="cpu" class="w-7 h-7 text-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400">
+                        SAKO&PP PC
+                    </h1>
+                    <p class="text-xs text-gray-400">ระบบสอบถามความต้องการสเปกคอมพิวเตอร์ & โน้ตบุ๊ก</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 text-xs bg-gray-800/80 px-3 py-1.5 rounded-full border border-gray-700 text-gray-300">
+                <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+                <span>ส่งข้อมูลตรงเข้าทีมงาน SAKO&PP</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4">
+        
+        <!-- Form Start (อัปเดต Endpoint ตัวใหม่เรียบร้อยแล้ว) -->
+        <form id="specForm" action="https://formspree.io/f/xkjonkly" method="POST" class="space-y-8">
+            <!-- Hidden Input for Formspree Config -->
+            <input type="hidden" name="_to" value="Hehjwjw484@gmail.com">
+            <input type="hidden" name="_subject" value="📌 มีรายการขอสเปกคอมใหม่จาก SAKO&PP PC">
+
+            <!-- 1. ข้อมูลผู้ส่ง -->
+            <section class="glass-panel p-6 rounded-2xl shadow-xl">
+                <div class="flex items-center gap-3 mb-6 border-b border-gray-800 pb-4">
+                    <i data-lucide="user" class="w-6 h-6 text-brand-500"></i>
+                    <h2 class="text-lg font-semibold text-white">1. ข้อมูลของคุณ (ผู้ขอสเปก)</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">ชื่อ / ชื่อเล่น *</label>
+                        <input type="text" name="Sender_Name" required placeholder="เช่น โกะ / เพื่อนโกะ" 
+                            class="w-full px-4 py-2.5 rounded-xl glass-input text-white placeholder-gray-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">อีเมลของคุณ (สำหรับติดต่อกลับ) *</label>
+                        <input type="email" name="Sender_Email" required placeholder="yourname@gmail.com" 
+                            class="w-full px-4 py-2.5 rounded-xl glass-input text-white placeholder-gray-500 focus:outline-none">
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. ประเภทอุปกรณ์ที่สนใจ -->
+            <section class="glass-panel p-6 rounded-2xl shadow-xl">
+                <div class="flex items-center gap-3 mb-6 border-b border-gray-800 pb-4">
+                    <i data-lucide="monitor" class="w-6 h-6 text-accent-cyan"></i>
+                    <h2 class="text-lg font-semibold text-white">2. ประเภทอุปกรณ์ที่สนใจ (เลือกได้มากกว่า 1 ข้อ)</h2>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <label class="cursor-pointer relative">
+                        <input type="checkbox" name="Device_Type[]" value="PC ประกอบ (ตั้งโต๊ะ)" class="peer sr-only">
+                        <div class="p-4 rounded-xl border border-gray-800 bg-gray-900/50 hover:bg-gray-800/50 peer-checked:border-brand-500 peer-checked:bg-brand-500/10 transition-all text-center">
+                            <i data-lucide="hard-drive" class="w-8 h-8 mx-auto mb-2 text-gray-400 peer-checked:text-brand-500"></i>
+                            <div class="font-medium text-gray-200">PC ประกอบ</div>
+                            <div class="text-xs text-gray-500">ตั้งโต๊ะ เน้นความแรง/อัปเกรดง่าย</div>
+                        </div>
+                    </label>
+                    <label class="cursor-pointer relative">
+                        <input type="checkbox" name="Device_Type[]" value="Notebook (Windows)" class="peer sr-only">
+                        <div class="p-4 rounded-xl border border-gray-800 bg-gray-900/50 hover:bg-gray-800/50 peer-checked:border-brand-500 peer-checked:bg-brand-500/10 transition-all text-center">
+                            <i data-lucide="laptop" class="w-8 h-8 mx-auto mb-2 text-gray-400 peer-checked:text-brand-500"></i>
+                            <div class="font-medium text-gray-200">Notebook (Windows)</div>
+                            <div class="text-xs text-gray-500">พกพาสะดวก ทำงานได้หลากหลาย</div>
+                        </div>
+                    </label>
+                    <label class="cursor-pointer relative">
+                        <input type="checkbox" name="Device_Type[]" value="MacBook (Apple)" class="peer sr-only">
+                        <div class="p-4 rounded-xl border border-gray-800 bg-gray-900/50 hover:bg-gray-800/50 peer-checked:border-brand-500 peer-checked:bg-brand-500/10 transition-all text-center">
+                            <i data-lucide="apple" class="w-8 h-8 mx-auto mb-2 text-gray-400 peer-checked:text-brand-500"></i>
+                            <div class="font-medium text-gray-200">MacBook</div>
+                            <div class="text-xs text-gray-500">ระบบ macOS แบตอึด หน้าจอสีตรง</div>
+                        </div>
+                    </label>
+                </div>
+            </section>
+
+            <!-- 3. ขนาดหน้าจอ (Display Size) -->
+            <section class="glass-panel p-6 rounded-2xl shadow-xl">
+                <div class="flex items-center gap-3 mb-6 border-b border-gray-800 pb-4">
+                    <i data-lucide="maximize-2" class="w-6 h-6 text-accent-purple"></i>
+                    <h2 class="text-lg font-semibold text-white">3. ขนาดหน้าจอที่ต้องการ (กรณีโน้ตบุ๊ก)</h2>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <label class="cursor-pointer">
+                        <input type="radio" name="Screen_Size" value="14 นิ้ว (พกพาง่าย บางเบา)" class="peer sr-only">
+                        <div class="p-3 text-center rounded-xl border border-gray-800 bg-gray-900/50 peer-checked:border-accent-purple peer-checked:bg-accent-purple/10 text-sm font-medium text-gray-300">
+                            14 นิ้ว (บางเบา)
+                        </div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="Screen_Size" value="15.6 นิ้ว (ขนาดมาตรฐาน)" class="peer sr-only" checked>
+                        <div class="p-3 text-center rounded-xl border border-gray-800 bg-gray-900/50 peer-checked:border-accent-purple peer-checked:bg-accent-purple/10 text-sm font-medium text-gray-300">
+                            15.6 นิ้ว (มาตรฐาน)
+                        </div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="Screen_Size" value="16 นิ้ว (จอใหญ่ สะใจ)" class="peer sr-only">
+                        <div class="p-3 text-center rounded-xl border border-gray-800 bg-gray-900/50 peer-checked:border-accent-purple peer-checked:bg-accent-purple/10 text-sm font-medium text-gray-300">
+                            16 นิ้ว (จอใหญ่)
+                        </div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="Screen_Size" value="ไม่จำกัด / ต่อจอนอกเป็นหลัก" class="peer sr-only">
+                        <div class="p-3 text-center rounded-xl border border-gray-800 bg-gray-900/50 peer-checked:border-accent-purple peer-checked:bg-accent-purple/10 text-sm font-medium text-gray-300">
+                            ไม่จำกัดขนาด
+                        </div>
+                    </label>
+                </div>
+            </section>
+
+            <!-- 4. RAM & Storage -->
+            <section class="glass-panel p-6 rounded-2xl shadow-xl">
+                <div class="flex items-center gap-3 mb-6 border-b border-gray-800 pb-4">
+                    <i data-lucide="database" class="w-6 h-6 text-emerald-400"></i>
+                    <h2 class="text-lg font-semibold text-white">4. ความจุและหน่วยความจำ (RAM & Storage)</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-3">ขนาด RAM ที่คาดหวัง</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="cursor-pointer"><input type="radio" name="RAM" value="8GB" class="peer sr-only"><div class="p-2.5 text-center rounded-lg border border-gray-800 bg-gray-900/50 peer-checked:border-emerald-500 peer-checked:bg-emerald-500/10 text-sm text-gray-300">8 GB</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="RAM" value="16GB" class="peer sr-only" checked><div class="p-2.5 text-center rounded-lg border border-gray-800 bg-gray-900/50 peer-checked:border-emerald-500 peer-checked:bg-emerald-500/10 text-sm text-gray-300">16 GB (แนะนำ)</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="RAM" value="32GB" class="peer sr-only"><div class="p-2.5 text-center rounded-lg border border-gray-800 bg-gray-900/50 peer-checked:border-emerald-500 peer-checked:bg-emerald-500/10 text-sm text-gray-300">32 GB</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="RAM" value="64GB+" class="peer sr-only"><div class="p-2.5 text-center rounded-lg border border-gray-800 bg-gray-900/50 peer-checked:border-emerald-500 peer-checked:bg-emerald-500/10 text-sm text-gray-300">64 GB ขึ้นไป</div></label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-3">ความจุ SSD Storage</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="cursor-pointer"><input type="radio" name="Storage" value="512GB" class="peer sr-only"><div class="p-2.5 text-center rounded-lg border border-gray-800 bg-gray-900/50 peer-checked:border-emerald-500 peer-checked:bg-emerald-500/10 text-sm text-gray-300">512 GB</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="Storage" value="1TB" class="peer sr-only" checked><div class="p-2.5 text-center rounded-lg border border-gray-800 bg-gray-900/50 peer-checked:border-emerald-500 peer-checked:bg-emerald-500/10 text-sm text-gray-300">1 TB (แนะนำ)</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="Storage" value="2TB+" class="peer sr-only"><div class="p-2.5 text-center rounded-lg border border-gray-800 bg-gray-900/50 peer-checked:border-emerald-500 peer-checked:bg-emerald-500/10 text-sm text-gray-300">2 TB ขึ้นไป</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="Storage" value="ให้ทีมงานแนะนำ" class="peer sr-only"><div class="p-2.5 text-center rounded-lg border border-gray-800 bg-gray-900/50 peer-checked:border-emerald-500 peer-checked:bg-emerald-500/10 text-sm text-gray-300">ให้ SAKO&PP แนะนำ</div></label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. พฤติกรรมสถานที่ทำงาน (Portability) -->
+            <section class="glass-panel p-6 rounded-2xl shadow-xl">
+                <div class="flex items-center gap-3 mb-6 border-b border-gray-800 pb-4">
+                    <i data-lucide="map-pin" class="w-6 h-6 text-yellow-400"></i>
+                    <h2 class="text-lg font-semibold text-white">5. ลักษณะสถานที่และรูปแบบการทำงาน</h2>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <label class="cursor-pointer">
+                        <input type="radio" name="Work_Location" value="ทำงานนอกสถานที่บ่อยมาก (เน้นเบา/แบตอึด)" class="peer sr-only">
+                        <div class="p-4 rounded-xl border border-gray-800 bg-gray-900/50 peer-checked:border-yellow-400 peer-checked:bg-yellow-400/10 text-center">
+                            <i data-lucide="briefcase" class="w-6 h-6 mx-auto mb-2 text-yellow-400"></i>
+                            <div class="text-sm font-medium text-gray-200">ออกนอกสถานที่บ่อย</div>
+                            <div class="text-xs text-gray-500 mt-1">เน้นน้ำหนักเบา แบตเตอรี่ใช้งานได้นาน</div>
+                        </div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="Work_Location" value="ตั้งโต๊ะอยู่ในห้องเป็นหลัก (เน้นประสิทธิภาพสูงสุด)" class="peer sr-only" checked>
+                        <div class="p-4 rounded-xl border border-gray-800 bg-gray-900/50 peer-checked:border-yellow-400 peer-checked:bg-yellow-400/10 text-center">
+                            <i data-lucide="home" class="w-6 h-6 mx-auto mb-2 text-yellow-400"></i>
+                            <div class="text-sm font-medium text-gray-200">อยู่ในห้องเป็นหลัก</div>
+                            <div class="text-xs text-gray-500 mt-1">เสียบปลั๊กใช้ตลอด เน้นความแรงและระบายความร้อน</div>
+                        </div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="Work_Location" value="ผสมผสาน (ยกไปข้างนอกบ้างบางครั้ง)" class="peer sr-only">
+                        <div class="p-4 rounded-xl border border-gray-800 bg-gray-900/50 peer-checked:border-yellow-400 peer-checked:bg-yellow-400/10 text-center">
+                            <i data-lucide="repeat" class="w-6 h-6 mx-auto mb-2 text-yellow-400"></i>
+                            <div class="text-sm font-medium text-gray-200">ผสมผสาน</div>
+                            <div class="text-xs text-gray-500 mt-1">ใช้ในห้องเป็นหลัก แต่พกพาไปข้างนอกได้ด้วย</div>
+                        </div>
+                    </label>
+                </div>
+            </section>
+
+            <!-- 6. โปรแกรมเฉพาะทางที่ใช้งาน -->
+            <section class="glass-panel p-6 rounded-2xl shadow-xl">
+                <div class="flex items-center gap-3 mb-6 border-b border-gray-800 pb-4">
+                    <i data-lucide="code" class="w-6 h-6 text-pink-500"></i>
+                    <h2 class="text-lg font-semibold text-white">6. ระบุชื่อโปรแกรมหรือเกมที่ต้องใช้ประจำ</h2>
+                </div>
+                <div>
+                    <textarea name="Software_List" rows="3" placeholder="เช่น Premiere Pro, DaVinci Resolve, Photoshop, Blender, Genshin Impact, Valorant, OBS Studio ฯลฯ"
+                        class="w-full p-4 rounded-xl glass-input text-white placeholder-gray-500 focus:outline-none"></textarea>
+                </div>
+            </section>
+
+            <!-- 7. งบประมาณ & สกุลเงิน -->
+            <section class="glass-panel p-6 rounded-2xl shadow-xl">
+                <div class="flex items-center justify-between mb-6 border-b border-gray-800 pb-4">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="banknote" class="w-6 h-6 text-emerald-400"></i>
+                        <h2 class="text-lg font-semibold text-white">7. ตั้งงบประมาณที่ต้องการ</h2>
+                    </div>
+                    <!-- Currency Selector -->
+                    <div class="flex bg-gray-900 rounded-lg p-1 border border-gray-800">
+                        <button type="button" onclick="setCurrency('THB')" id="btn-THB" class="px-3 py-1 text-xs rounded-md font-semibold bg-brand-600 text-white transition-all">THB (บาท)</button>
+                        <button type="button" onclick="setCurrency('LAK')" id="btn-LAK" class="px-3 py-1 text-xs rounded-md font-semibold text-gray-400 hover:text-white transition-all">LAK (กีบ)</button>
+                        <button type="button" onclick="setCurrency('USD')" id="btn-USD" class="px-3 py-1 text-xs rounded-md font-semibold text-gray-400 hover:text-white transition-all">USD ($)</button>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-400">ช่วงงบประมาณประมาณการ:</span>
+                        <span id="budgetValue" class="text-2xl font-bold text-emerald-400">30,000 THB</span>
+                    </div>
+                    <input type="range" id="budgetRange" name="Budget_Amount" min="1000" max="100000" step="1000" value="30000" oninput="updateBudgetDisplay()"
+                        class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-emerald-400">
+                    <input type="hidden" id="currencyInput" name="Budget_Currency" value="THB">
+                </div>
+            </section>
+
+            <!-- 8. ความชอบส่วนตัว -->
+            <section class="glass-panel p-6 rounded-2xl shadow-xl">
+                <div class="flex items-center gap-3 mb-6 border-b border-gray-800 pb-4">
+                    <i data-lucide="heart" class="w-6 h-6 text-red-500"></i>
+                    <h2 class="text-lg font-semibold text-white">8. ความชอบส่วนตัว & โทนสีดีไซน์</h2>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                    <label class="cursor-pointer"><input type="checkbox" name="Style_Preference[]" value="ชอบโทนสีขาว Minimal" class="peer sr-only"><div class="p-3 text-center rounded-xl border border-gray-800 bg-gray-900/50 peer-checked:border-white peer-checked:bg-white/10 text-sm text-gray-300">⚪ ชอบเคส/เครื่องสีขาว</div></label>
+                    <label class="cursor-pointer"><input type="checkbox" name="Style_Preference[]" value="ชอบไฟ RGB จัดเต็ม" class="peer sr-only"><div class="p-3 text-center rounded-xl border border-gray-800 bg-gray-900/50 peer-checked:border-pink-500 peer-checked:bg-pink-500/10 text-sm text-gray-300">🌈 ชอบไฟ RGB แฟลชๆ</div></label>
+                    <label class="cursor-pointer"><input type="checkbox" name="Style_Preference[]" value="ชอบเรียบหรู ดำดุดัน" class="peer sr-only"><div class="p-3 text-center rounded-xl border border-gray-800 bg-gray-900/50 peer-checked:border-gray-400 peer-checked:bg-gray-400/10 text-sm text-gray-300">⚫ เรียบหรู ไม่มีไฟ</div></label>
+                </div>
+                <textarea name="Additional_Notes" rows="2" placeholder="เพิ่มเติมอื่นๆ เช่น อยากได้เคสมีกระจกใส, อยากได้คีย์บอร์ดมีไฟ, ต้องการผ่อนชำระ ฯลฯ"
+                    class="w-full p-4 rounded-xl glass-input text-white placeholder-gray-500 focus:outline-none"></textarea>
+            </section>
+
+            <!-- Submit Button -->
+            <div class="pt-4">
+                <button type="submit" 
+                    class="w-full py-4 px-6 rounded-xl font-bold text-lg text-white bg-gradient-to-r from-brand-600 via-accent-purple to-accent-cyan hover:opacity-90 transition-all shadow-xl shadow-brand-500/20 flex items-center justify-center gap-3">
+                    <i data-lucide="send" class="w-6 h-6"></i>
+                    <span>🚀 ส่งข้อมูลสเปกเข้าอีเมล SAKO&PP PC</span>
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <!-- Script Section -->
+    <script>
+        lucide.createIcons();
+
+        let currentCurrency = 'THB';
+        const currencyConfig = {
+            'THB': { min: 1000, max: 100000, step: 1000, default: 30000, symbol: 'THB' },
+            'LAK': { min: 1000000, max: 100000000, step: 1000000, default: 20000000, symbol: 'LAK' },
+            'USD': { min: 100, max: 100000, step: 100, default: 1000, symbol: 'USD' }
+        };
+
+        function setCurrency(curr) {
+            currentCurrency = curr;
+            document.getElementById('currencyInput').value = curr;
+            
+            // Toggle Button Styles
+            ['THB', 'LAK', 'USD'].forEach(c => {
+                const btn = document.getElementById(`btn-${c}`);
+                if (c === curr) {
+                    btn.className = "px-3 py-1 text-xs rounded-md font-semibold bg-brand-600 text-white transition-all";
+                } else {
+                    btn.className = "px-3 py-1 text-xs rounded-md font-semibold text-gray-400 hover:text-white transition-all";
+                }
+            });
+
+            // Update Slider Ranges
+            const slider = document.getElementById('budgetRange');
+            const conf = currencyConfig[curr];
+            slider.min = conf.min;
+            slider.max = conf.max;
+            slider.step = conf.step;
+            slider.value = conf.default;
+
+            updateBudgetDisplay();
+        }
+
+        function updateBudgetDisplay() {
+            const slider = document.getElementById('budgetRange');
+            const valDisplay = document.getElementById('budgetValue');
+            const val = parseInt(slider.value).toLocaleString();
+            valDisplay.innerText = `${val} ${currentCurrency}`;
+        }
+    </script>
+</body>
+</html>
