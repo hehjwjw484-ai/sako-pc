@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Life & Study Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        .glass {
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header / Navbar -->
+    <header class="glass border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-3xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <span class="text-xl">📅</span>
+                <h1 class="text-lg font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                    ระบบบันทึกชีวิตประจำวัน
+                </h1>
+            </div>
+            <!-- Toggle Button to switch views in the same page -->
+            <button onclick="toggleView()" id="toggle-btn" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold px-4 py-2 rounded-xl text-sm transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2">
+                <span id="btn-icon">📚</span>
+                <span id="btn-text">ดูประวัติย้อนหลังทั้งเดือน</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container (All in one page) -->
+    <main class="max-w-3xl mx-auto px-4 py-8 flex-1 w-full space-y-6">
+
+        <!-- ================= SECTION 1: TODAY TRACKER (Default View) ================= -->
+        <section id="section-today" class="glass p-6 rounded-2xl shadow-xl transition-all">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                <div>
+                    <h2 class="text-xl font-bold" id="current-date-title">วันที่ -</h2>
+                    <p class="text-sm text-slate-400">ติ๊กเช็กอินภารกิจของคุณในวันนี้</p>
+                </div>
+                <!-- Add Task Form -->
+                <form onsubmit="addTask(event)" class="flex gap-2 w-full sm:w-auto">
+                    <input type="text" id="new-task-input" placeholder="เพิ่มภารกิจใหม่..." 
+                        class="bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-emerald-500 flex-1 sm:w-56">
+                    <button type="submit" class="bg-emerald-500 text-slate-950 font-semibold px-4 py-2 rounded-xl text-sm hover:bg-emerald-400 transition-all">
+                        เพิ่ม
+                    </button>
+                </form>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="mb-6 bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                <div class="flex justify-between text-sm mb-2">
+                    <span class="text-slate-300 font-medium">ความคืบหน้าวันนี้</span>
+                    <span id="progress-text" class="text-emerald-400 font-bold">0%</span>
+                </div>
+                <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="bg-gradient-to-r from-emerald-500 to-cyan-400 h-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Task List -->
+            <div id="task-list" class="space-y-3">
+                <!-- Tasks injected via JS -->
+            </div>
+        </section>
+
+        <!-- ================= SECTION 2: MONTHLY HISTORY (Toggleable View) ================= -->
+        <section id="section-history" class="glass p-6 rounded-2xl shadow-xl hidden transition-all">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+                <div>
+                    <h2 class="text-xl font-bold">📚 ประวัติย้อนหลังทั้งเดือน</h2>
+                    <p class="text-sm text-slate-400">ตรวจสอบกิจกรรมที่คุณทำสำเร็จย้อนหลังในแต่ละวัน</p>
+                </div>
+                <!-- Month & Year Selector -->
+                <div class="flex items-center gap-2 bg-slate-900 p-2 rounded-xl border border-slate-800">
+                    <select id="history-month-select" onchange="renderHistory()" class="bg-transparent text-sm font-medium text-emerald-400 focus:outline-none px-2 cursor-pointer">
+                    </select>
+                    <select id="history-year-select" onchange="renderHistory()" class="bg-transparent text-sm font-medium text-emerald-400 focus:outline-none px-2 cursor-pointer">
+                    </select>
+                </div>
+            </div>
+
+            <!-- Calendar Grid Overview -->
+            <div class="mb-8">
+                <h3 class="text-sm font-semibold text-slate-400 mb-3">ปฏิทินสถานะประจำเดือน</h3>
+                <div id="calendar-grid" class="grid grid-cols-7 gap-2 text-center text-xs">
+                    <div class="text-slate-500 font-bold py-1">อา</div>
+                    <div class="text-slate-500 font-bold py-1">จ</div>
+                    <div class="text-slate-500 font-bold py-1">อ</div>
+                    <div class="text-slate-500 font-bold py-1">พ</div>
+                    <div class="text-slate-500 font-bold py-1">พฤ</div>
+                    <div class="text-slate-500 font-bold py-1">ศ</div>
+                    <div class="text-slate-500 font-bold py-1">ส</div>
+                </div>
+            </div>
+
+            <!-- Detailed Day-by-Day History Log -->
+            <div>
+                <h3 class="text-sm font-semibold text-slate-400 mb-3">ไทม์ไลน์บันทึกรายวัน</h3>
+                <div id="history-log-list" class="space-y-3">
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Script Application Logic -->
+    <script>
+        const STORAGE_TASKS = 'daily_tracker_tasks_v3';
+        const STORAGE_LOGS = 'daily_tracker_logs_v3';
+
+        let defaultTasks = [
+            { id: 1, text: 'ทำความสะอาด', completed: false },
+            { id: 2, text: 'เวลาเรียนภาษาญี่ปุ่น', completed: false },
+            { id: 3, text: 'เวลาเรียนภาษาอังกฤษ', completed: false },
+            { id: 4, text: 'เวลาเรียนธรรมะ', completed: false }
+        ];
+
+        function getTodayKey() {
+            const now = new Date();
+            return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+        }
+
+        function loadTasks() {
+            const data = localStorage.getItem(STORAGE_TASKS);
+            return data ? JSON.parse(data) : defaultTasks;
+        }
+
+        function saveTasks(tasks) {
+            localStorage.setItem(STORAGE_TASKS, JSON.stringify(tasks));
+            updateTodayLog(tasks);
+        }
+
+        function loadLogs() {
+            const data = localStorage.getItem(STORAGE_LOGS);
+            return data ? JSON.parse(data) : {};
+        }
+
+        function saveLogs(logs) {
+            localStorage.setItem(STORAGE_LOGS, JSON.stringify(logs));
+        }
+
+        function updateTodayLog(tasks) {
+            const todayKey = getTodayKey();
+            const logs = loadLogs();
+            logs[todayKey] = tasks;
+            saveLogs(logs);
+        }
+
+        // Toggle View in the Same Page
+        let isHistoryView = false;
+        function toggleView() {
+            isHistoryView = !isHistoryView;
+            const sectionToday = document.getElementById('section-today');
+            const sectionHistory = document.getElementById('section-history');
+            const btnText = document.getElementById('btn-text');
+            const btnIcon = document.getElementById('btn-icon');
+
+            if (isHistoryView) {
+                sectionToday.classList.add('hidden');
+                sectionHistory.classList.remove('hidden');
+                btnText.innerText = "กลับหน้าเช็กอินวันนี้";
+                btnIcon.innerText = "📋";
+                initHistorySelectors();
+                renderHistory();
+            } else {
+                sectionHistory.classList.add('hidden');
+                sectionToday.classList.remove('hidden');
+                btnText.innerText = "ดูประวัติย้อนหลังทั้งเดือน";
+                btnIcon.innerText = "📚";
+                renderToday();
+            }
+        }
+
+        // Render Today
+        function renderToday() {
+            const now = new Date();
+            document.getElementById('current-date-title').innerText = `วันนี้: ${now.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })}`;
+
+            const tasks = loadTasks();
+            const listEl = document.getElementById('task-list');
+            listEl.innerHTML = '';
+
+            if (tasks.length === 0) {
+                listEl.innerHTML = `<p class="text-slate-500 text-center py-4 text-sm">ยังไม่มีภารกิจในวันนี้ เพิ่มได้ที่ช่องด้านบนเลยครับ</p>`;
+                updateProgress(0, 0);
+                return;
+            }
+
+            let completedCount = 0;
+            tasks.forEach(task => {
+                if (task.completed) completedCount++;
+                const item = document.createElement('div');
+                item.className = `flex items-center justify-between p-4 rounded-xl border transition-all ${task.completed ? 'bg-emerald-950/20 border-emerald-500/30' : 'bg-slate-900/60 border-slate-800'}`;
+                item.innerHTML = `
+                    <label class="flex items-center gap-3 cursor-pointer flex-1">
+                        <input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTask(${task.id})" 
+                            class="w-5 h-5 accent-emerald-500 rounded cursor-pointer">
+                        <span class="${task.completed ? 'line-through text-slate-400' : 'text-slate-200'} font-medium text-sm">${task.text}</span>
+                    </label>
+                    <button onclick="deleteTask(${task.id})" class="text-slate-500 hover:text-red-400 text-xs px-2 py-1 rounded transition-all">ลบ</button>
+                `;
+                listEl.appendChild(item);
+            });
+
+            updateProgress(completedCount, tasks.length);
+        }
+
+        function toggleTask(id) {
+            let tasks = loadTasks();
+            tasks = tasks.map(t => t.id === id ? { ...t, completed: !t.completed } : t);
+            saveTasks(tasks);
+            renderToday();
+        }
+
+        function addTask(e) {
+            e.preventDefault();
+            const input = document.getElementById('new-task-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const tasks = loadTasks();
+            tasks.push({ id: Date.now(), text, completed: false });
+            saveTasks(tasks);
+            input.value = '';
+            renderToday();
+        }
+
+        function deleteTask(id) {
+            let tasks = loadTasks();
+            tasks = tasks.filter(t => t.id !== id);
+            saveTasks(tasks);
+            renderToday();
+        }
+
+        function updateProgress(completed, total) {
+            const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
+            document.getElementById('progress-text').innerText = `${percent}%`;
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+        }
+
+        // Render History
+        function initHistorySelectors() {
+            const monthSelect = document.getElementById('history-month-select');
+            const yearSelect = document.getElementById('history-year-select');
+            if (monthSelect.children.length > 0) return;
+
+            const months = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
+            const now = new Date();
+
+            monthSelect.innerHTML = '';
+            months.forEach((m, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.text = m;
+                if (idx === now.getMonth()) opt.selected = true;
+                monthSelect.appendChild(opt);
+            });
+
+            yearSelect.innerHTML = '';
+            for (let y = now.getFullYear() - 2; y <= now.getFullYear() + 2; y++) {
+                const opt = document.createElement('option');
+                opt.value = y;
+                opt.text = y + 543;
+                if (y === now.getFullYear()) opt.selected = true;
+                yearSelect.appendChild(opt);
+            }
+        }
+
+        function renderHistory() {
+            const month = parseInt(document.getElementById('history-month-select').value);
+            const year = parseInt(document.getElementById('history-year-select').value);
+            const logs = loadLogs();
+
+            const gridEl = document.getElementById('calendar-grid');
+            const headersHtml = Array.from(gridEl.children).slice(0, 7).map(el => el.outerHTML).join('');
+            gridEl.innerHTML = headersHtml;
+
+            const firstDayIndex = new Date(year, month, 1).getDay();
+            const totalDays = new Date(year, month + 1, 0).getDate();
+
+            for (let i = 0; i < firstDayIndex; i++) {
+                gridEl.appendChild(document.createElement('div'));
+            }
+
+            for (let day = 1; day <= totalDays; day++) {
+                const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const dayTasks = logs[dateKey] || [];
+                const hasCompleted = dayTasks.length > 0 && dayTasks.every(t => t.completed);
+                const hasSome = dayTasks.some(t => t.completed);
+
+                let bgClass = "bg-slate-900 border-slate-800 text-slate-400";
+                if (hasCompleted) bgClass = "bg-emerald-500/20 border-emerald-500/50 text-emerald-400 font-bold";
+                else if (hasSome) bgClass = "bg-amber-500/20 border-amber-500/50 text-amber-400";
+
+                const cell = document.createElement('div');
+                cell.className = `p-2 rounded-xl border flex flex-col items-center justify-center h-12 text-xs ${bgClass}`;
+                cell.innerHTML = `<span>${day}</span>`;
+                gridEl.appendChild(cell);
+            }
+
+            const logListEl = document.getElementById('history-log-list');
+            logListEl.innerHTML = '';
+            let hasRecord = false;
+
+            for (let day = totalDays; day >= 1; day--) {
+                const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const dayTasks = logs[dateKey];
+
+                if (dayTasks && dayTasks.length > 0) {
+                    hasRecord = true;
+                    const completed = dayTasks.filter(t => t.completed).map(t => t.text);
+                    const pending = dayTasks.filter(t => !t.completed).map(t => t.text);
+
+                    const card = document.createElement('div');
+                    card.className = "bg-slate-900/60 border border-slate-800 p-4 rounded-xl space-y-1.5";
+                    
+                    let html = `<div class="font-bold text-emerald-400 text-sm">วันที่ ${String(day).padStart(2, '0')}/${String(month + 1).padStart(2, '0')}/${year + 543}</div>`;
+                    if (completed.length > 0) html += `<div class="text-xs text-slate-300"><span class="text-emerald-400 font-medium">✓ ทำแล้ว:</span> ${completed.join(', ')}</div>`;
+                    if (pending.length > 0) html += `<div class="text-xs text-slate-500"><span class="text-slate-400 font-medium">⏳ ค้างทำ:</span> ${pending.join(', ')}</div>`;
+
+                    card.innerHTML = html;
+                    logListEl.appendChild(card);
+                }
+            }
+
+            if (!hasRecord) {
+                logListEl.innerHTML = `<p class="text-slate-500 text-center py-6 text-sm">ยังไม่มีบันทึกประวัติย้อนหลังในเดือนนี้</p>`;
+            }
+        }
+
+        renderToday();
+    </script>
+</body>
+</html>
